@@ -52,7 +52,7 @@ namespace Disney
     class ApiClient
     {
         private static readonly HttpClient client = new();
-        private const string Url = "http://localhost:7000";
+        private const string Url = "http://localhost:7000/film";
 
         public async Task<string> PostAsync(Film film)
         {
