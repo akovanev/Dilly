@@ -1,6 +1,6 @@
 using System;
 
-namespace Dilly.Service.Models
+namespace Dilly.Integrations.Models
 {
     public class Film
     {

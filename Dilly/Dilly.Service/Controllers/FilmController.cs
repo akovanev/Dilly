@@ -1,10 +1,11 @@
-﻿using Dilly.Service.Models;
+﻿using System;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Newtonsoft.Json;
+using Dilly.Service.Abstractions;
+using Dilly.Service.Models;
+using Microsoft.AspNetCore.Http;
 
 namespace Dilly.Service.Controllers
 {
@@ -12,18 +13,27 @@ namespace Dilly.Service.Controllers
     [Route("[controller]")]
     public class FilmController : ControllerBase
     {
-        private readonly ILogger<FilmController> _logger;
+        private readonly ILogger<FilmController> logger;
+        private readonly IProducerProcessor producerProcessor;
 
-        public FilmController(ILogger<FilmController> logger)
+        public FilmController(ILogger<FilmController> logger, IProducerProcessor producerProcessor)
         {
-            _logger = logger;
+            this.logger = logger ?? throw new NullReferenceException(nameof(logger));
+            this.producerProcessor = producerProcessor ?? throw new NullReferenceException(nameof(producerProcessor));
         }
 
         [HttpPost]
-        public async Task<OkResult> Post([FromBody] Film film)
+        public async Task<IActionResult> PostAsync([FromBody] Film film)
         {
-            await Task.Delay(0);
-            return Ok();
+            if (!ModelState.IsValid)
+                return BadRequest(ModelState);
+
+            var result = await producerProcessor.PublishMessage(film.FilmMakerId ?? "Unknown", JsonConvert.SerializeObject(film));
+
+            if(result.IsSuccess)
+                return Ok(result.Data);
+
+            return new JsonResult(result.Data) { StatusCode = StatusCodes.Status503ServiceUnavailable }; //For simplicity
         }
     }
 }

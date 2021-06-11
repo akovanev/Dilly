@@ -1,16 +1,12 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
-using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.Logging;
 using Microsoft.OpenApi.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using Confluent.Kafka;
+using Dilly.Service.Abstractions;
+using Dilly.Service.Infrastructure;
 
 namespace Dilly.Service
 {
@@ -30,8 +26,11 @@ namespace Dilly.Service
             services.AddHealthChecks();
             services.AddSwaggerGen(c =>
             {
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Dilly.API", Version = "v1" });
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "Dilly.Services", Version = "v1" });
             });
+
+            services.AddSingleton(svc => Configuration.GetSection("KafkaProducerCongig").Get<ProducerConfig>());
+            services.AddScoped<IProducerProcessor, ProducerProcessor>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

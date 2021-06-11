@@ -44,7 +44,7 @@ namespace Disney
     class Film
     {
         //For simplicity
-        public string FilmMakerId => "1";
+        public string FilmMakerId => "Disney";
         public string Name { get; set; }
         public string Actors { get; set; }
     }
@@ -60,11 +60,11 @@ namespace Disney
             {
                 var response = await client.PostAsJsonAsync(Url, film);
                 response.EnsureSuccessStatusCode();
-                return "Success";
+                return await response.Content.ReadAsStringAsync();
             }
-            catch
+            catch(Exception ex)
             {
-                return "**Smth went wrong**";
+                return $"**Smth went wrong** {ex.Message}";
             }
         }
     }
