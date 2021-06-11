@@ -28,7 +28,7 @@ namespace Dilly.Service.Controllers
             if (!ModelState.IsValid)
                 return BadRequest(ModelState);
 
-            var result = await producerProcessor.PublishMessage(film.FilmMakerId ?? "Unknown", JsonConvert.SerializeObject(film));
+            var result = await producerProcessor.PublishMessageAsync(film.FilmMakerId ?? "Unknown", JsonConvert.SerializeObject(film));
 
             if(result.IsSuccess)
                 return Ok(result.Data);

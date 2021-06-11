@@ -3,7 +3,7 @@ using Dilly.Integrations.Abstractions;
 
 namespace Dilly.Integrations.Imdb.Infrastructure
 {
-    public class ImdbConsumerProcessor : ConsumerProcessorBase, IConsumerProcessor
+    internal class ImdbConsumerProcessor : ConsumerProcessorBase, IConsumerProcessor
     {
         public ImdbConsumerProcessor(ConsumerConfig config)
             : base(new ConsumerBuilder<Ignore, string>(config).Build())

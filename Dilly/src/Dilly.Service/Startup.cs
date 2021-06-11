@@ -7,6 +7,7 @@ using Microsoft.OpenApi.Models;
 using Confluent.Kafka;
 using Dilly.Service.Abstractions;
 using Dilly.Service.Infrastructure;
+using Dilly.Service.DependencyInjection;
 
 namespace Dilly.Service
 {
@@ -29,7 +30,7 @@ namespace Dilly.Service
                 c.SwaggerDoc("v1", new OpenApiInfo { Title = "Dilly.Services", Version = "v1" });
             });
 
-            services.AddSingleton(svc => Configuration.GetSection("KafkaProducerCongig").Get<ProducerConfig>());
+            services.AddProducer<Null, string>(Configuration);
             services.AddScoped<IProducerProcessor, ProducerProcessor>();
         }
 

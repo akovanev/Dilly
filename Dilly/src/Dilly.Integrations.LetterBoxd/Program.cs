@@ -24,7 +24,7 @@ namespace Dilly.Integrations.LetterBoxd
                     .ConfigureServices((hostContext, services) =>
                     {
                         services.AddSingleton(svc => hostContext.Configuration.GetSection("KafkaConsumerCongig").Get<ConsumerConfig>());
-                        services.AddScoped<IConsumerProcessor, LetterBoxdConsumerProcessor>();
+                        services.AddScoped<LetterBoxdConsumerProcessor>();
                         services.AddHostedService<LetterBoxdJob>();
                     })
                     .UseConsoleLifetime()

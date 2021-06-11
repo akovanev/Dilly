@@ -5,6 +5,6 @@ namespace Dilly.Service.Abstractions
 {
     public interface IProducerProcessor
     {
-        Task<Result<string>> PublishMessage(string topic, string message);
+        Task<Result<string>> PublishMessageAsync(string topic, string message);
     }
 }

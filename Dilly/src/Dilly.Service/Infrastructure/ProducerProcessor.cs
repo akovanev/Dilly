@@ -1,26 +1,24 @@
-﻿using Confluent.Kafka;
+﻿using System.Threading.Tasks;
+using Confluent.Kafka;
 using Dilly.Service.Abstractions;
 using Dilly.Service.Models;
-using System.Threading.Tasks;
 
 namespace Dilly.Service.Infrastructure
 {
     public class ProducerProcessor : IProducerProcessor
     {
-        private readonly ProducerConfig config;
+        private readonly IProducer<Null, string> producer;
 
-        public ProducerProcessor(ProducerConfig config)
+        public ProducerProcessor(IProducer<Null, string> producer)
         {
-            this.config = config;
+            this.producer = producer;
         }
 
-        public async Task<Result<string>> PublishMessage(string topic, string message)
+        public async Task<Result<string>> PublishMessageAsync(string topic, string message)
         {
-            using var producerBuilder = new ProducerBuilder<Null, string>(config).Build();
-
             try
             {
-                var dr = await producerBuilder.ProduceAsync(topic, new Message<Null, string> { Value = message });
+                var dr = await producer.ProduceAsync(topic, new Message<Null, string> { Value = message });
                 return Result<string>.Success($"Delivered '{dr.Value}'");
             }
             catch (ProduceException<Null, string> exception)
