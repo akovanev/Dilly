@@ -1,15 +1,14 @@
 ﻿using System;
-using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using Dilly.Integrations.Abstractions;
 using Dilly.Integrations.Models;
 
 namespace Dilly.Integrations.Imdb.Infrastructure
 {
-    internal class ImdbJob : JobBase<ImdbConsumerProcessor>
+    internal class ImdbJob : JobBase
     {
-        public ImdbJob(IServiceScopeFactory serviceScopeFactory)
-            : base(serviceScopeFactory)
+        public ImdbJob(IConsumerProcessor consumerProcessor)
+            : base(consumerProcessor)
         {
         }
 

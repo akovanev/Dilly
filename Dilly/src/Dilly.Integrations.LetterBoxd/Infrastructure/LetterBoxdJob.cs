@@ -1,15 +1,14 @@
 ﻿using System;
-using Microsoft.Extensions.DependencyInjection;
 using Newtonsoft.Json;
 using Dilly.Integrations.Abstractions;
 using Dilly.Integrations.Models;
 
 namespace Dilly.Integrations.LetterBoxd.Infrastructure
 {
-    internal class LetterBoxdJob : JobBase<LetterBoxdConsumerProcessor>
+    internal class LetterBoxdJob : JobBase
     {
-        public LetterBoxdJob(IServiceScopeFactory serviceScopeFactory)
-             : base(serviceScopeFactory)
+        public LetterBoxdJob(IConsumerProcessor consumerProcessor)
+             : base(consumerProcessor)
         {
         }
 

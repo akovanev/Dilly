@@ -13,7 +13,7 @@ namespace Dilly.Integrations.Abstractions
             Consumer = consumer ?? throw new NullReferenceException(nameof(consumer));
         }
 
-        public string ReadMessage(CancellationToken cancellationToken)
+        public string? ReadMessage(CancellationToken cancellationToken)
         {
             var consumeResult = Consumer.Consume(cancellationToken);
             return consumeResult.Message?.Value;
