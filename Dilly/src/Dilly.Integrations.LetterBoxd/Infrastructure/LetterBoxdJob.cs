@@ -15,7 +15,7 @@ namespace Dilly.Integrations.LetterBoxd.Infrastructure
         protected override void HandleMessage(string message)
         {
             var film = JsonConvert.DeserializeObject<Film>(message);
-            Console.WriteLine(film.Name);
+            Console.WriteLine($"{film.Name} created {film.CreatedAt.ToShortTimeString()}");
         }
 
         protected override void HandleError(string error)

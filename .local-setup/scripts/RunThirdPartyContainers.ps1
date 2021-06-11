@@ -1,5 +1,6 @@
 function StopContainers {
 	docker stop $(docker ps -a -q)
+	docker system prune -f
 }
 
 function RunKafka {

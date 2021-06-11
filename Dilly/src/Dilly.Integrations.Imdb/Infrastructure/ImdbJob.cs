@@ -15,7 +15,7 @@ namespace Dilly.Integrations.Imdb.Infrastructure
         protected override void HandleMessage(string message)
         {
             var film = JsonConvert.DeserializeObject<Film>(message);
-            Console.WriteLine(film.Name);
+            Console.WriteLine($"{film.Name} created {film.CreatedAt:HHmmss}");
         }
 
         protected override void HandleError(string error)
