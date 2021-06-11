@@ -24,7 +24,7 @@ namespace Dilly.Integrations.Imdb
                     .ConfigureServices((hostContext, services) =>
                     {
                         services.AddSingleton(svc => hostContext.Configuration.GetSection("KafkaConsumerCongig").Get<ConsumerConfig>());
-                        services.AddScoped<ImdbConsumerProcessor>();
+                        services.AddScoped<IConsumerProcessor, ImdbConsumerProcessor>();
                         services.AddHostedService<ImdbJob>();
                     })
                     .UseConsoleLifetime()
